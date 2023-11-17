@@ -39,7 +39,7 @@ class userController {
 
             // Creating a hashCode for password and keep this hashcode in database 
             // instead of actual password 
-            const salt = await bcrypt.genSalt(20);
+            const salt = await bcrypt.genSalt(10);
             const passwordHashingCode = await bcrypt.hash(password, salt);
 
             user = new UserModel({ username: username, email: email, password: passwordHashingCode, termsConditions: tc });
@@ -82,6 +82,32 @@ class userController {
             res.status(400).json({ "status": "failed", "message": "Unable to login...!" });
         }
 
+    }
+
+    static changeUserPassword = async (req, res) => {
+        // Now we want validated user and for that we use middleware
+        const { password, confirmpassword } = req.body;
+        try {
+            if (!password || !confirmpassword) {
+                return res.status(400).json({ "Status": "failed", "message": "All fields are required...!" });
+            }
+
+            if (password !== confirmpassword) {
+                return res.status(400).json({ "Status": "failed", "message": "new password and new confirm password mismatched!" });
+            }
+
+            const salt = await bcrypt.genSalt(10);
+            const newHashPassword = await bcrypt.hash(password, salt);
+            // console.log(req.user);
+
+            await UserModel.findByIdAndUpdate(req.user._id, {$set: {password: newHashPassword}});
+            
+            res.status(200).json({ "Status": "Success", "message": "Successfully Changed Password...!" });
+
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({ "status": "failed", "message": "Unable to change the password...!" });
+        }
     }
 
 }
