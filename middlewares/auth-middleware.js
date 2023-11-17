@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 import UserModel from "../models/userModel.js";
-import { connect } from "mongoose";
 
 const checkUserAuth = async (req, res, next) => {
     let token;
