@@ -138,15 +138,136 @@ class userController {
             // Like- /api/v1/reset/:id/:token in frontend
             // console.log(link); // link generated and sent via email, now reset password and enter new password
 
-            console.log(user.email);
+            console.log(user.username);
 
             // Now Send Email
             const info = await transporter.sendMail({
                 from: process.env.EMAIL_FROM,
                 to: user.email,
                 subject: "You Requested for password reset so this email is regarding password reset.",
-                html: `<h2><a href=${link}>Click here to Reset Your Password</a></h2>`
-            })
+                html: `
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Document</title>
+                    <style>
+                        *{
+                            box-sizing: border-box;
+                        }
+                        table{
+                            border: transparent;
+                            background-color: rgb(220, 216, 216);
+                            border: none;
+                            border-spacing: 0px;
+                            border-radius: 0.25rem; 
+                            /* box-shadow: 2px 3px 10px;  */
+                        
+                        }
+                        body{
+                            /* background-color: rgb(248, 225, 217); */
+                            display: flex;
+                            flex-direction: column-reverse;
+                            justify-content: center;
+                            align-items: center;
+                            font-size: 16px;
+                        }
+                        .title{
+                            margin-bottom: 1rem;
+                            overflow: hidden;
+                            color: rgb(4, 55, 150);
+                            font-size: 2em;
+                            font-weight: bolder;
+                        
+                            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                            padding-top: 1rem;
+                            padding-bottom: 1rem;
+                        }
+                        tr{
+                            text-align: center;
+                        }
+                        
+                        .top{
+                            background-color: rgb(4, 55, 150);
+                            color: white;
+                            padding-bottom: 1rem;
+                        }
+                        .msg{
+                            font-size: large;
+                            margin-top: 1.5rem;
+                            margin-bottom: 1.5rem;
+                        }
+                
+                        
+                        .code{
+                            border-radius: 4px;
+                            color: white;
+                            font-size: 2em;
+                            display: initial;
+                            padding-left: 1rem;
+                            padding-right: 1rem;
+                            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif ;
+                
+                        }
+                
+                        .contactus{
+                            margin-top: 1rem;
+                            padding-top: 1rem;
+                            /* line-height: 30px; */
+                            font-size: 1.5rem;
+                            padding-bottom: 1rem;
+                        
+                        }
+                        .copywrite{
+                            background-color: rgb(4, 55, 150);
+                            color: white;
+                            width: 100%;
+                            padding-left: 0px;
+                            padding-right: 0px;
+                            height: 1.75rem;
+                            text-align: center;
+                            padding-top: 5px;
+                            border-bottom-left-radius: 0.25rem; 
+                            border-bottom-right-radius: 0.25rem;
+                        }
+                    
+                    </style>
+                </head>
+                <body>
+                    <table  style="background-color: rgb(237, 242, 243);;">
+                        <th class="title"> Prakash<img src="https://drive.google.com/uc?export=view&id=1SM_3kWz9cckg7bCiQDwje3X76BKySSzr" alt="logo">Company</th>
+                        <tbody>
+                            <tr class="top">
+                                <td>
+                                    <img src="https://drive.google.com/uc?export=view&id=1GhR10Ud4KMVY5dHahmrCQMzGRATkZGtk" alt="" width="150">
+                                    <p>Welcome To Prakash and Company!<br><br>
+                                        <span style="font-size: 2rem;">Reset Your Password</span>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="msg">Hi, ${user.username}<br>Please Click Below Link to Reset Your Password! This will redirect to reset form where you will have to give new password.</div>
+                                    <div class="code"><a href=${link}>Click here</a></div>
+                                    <div><br></div>
+                                </td>
+                            </tr>
+                        <tr>
+                        
+                        </tr>
+                            <tr class="footer">
+                                <td style=" background-color: rgb(217, 223, 228);">
+                                    <div class="contactus"><span style="color: rgb(4, 55, 150);  font-weight: bold;">Get in touch</span><br>Phone: +91-8873323323<br>Email: ${process.env.EMAIL_FROM}</div>
+                                    <div class="copywrite">Copyrights © Prakash $ Company All Rights Reserved</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </body>
+                </html>` // Html Body Ending Here
+            });
 
             // console.log(info);
 
