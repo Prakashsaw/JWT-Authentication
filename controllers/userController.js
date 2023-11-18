@@ -3,6 +3,8 @@ import jwt from 'jsonwebtoken';
 import validator from 'validator';
 import UserModel from '../models/userModel.js';
 import transporter from '../config/emailConfig.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 class userController {
     // Code for generating jwt token
@@ -134,19 +136,21 @@ class userController {
 
             const link = `http://127.0.0.1:3000/api/v1/user/reset/${user._id}/${token}`;
             // Like- /api/v1/reset/:id/:token in frontend
-            console.log(link); // link generated and sent via email, now reset password and enter new password
+            // console.log(link); // link generated and sent via email, now reset password and enter new password
+
+            console.log(user.email);
 
             // Now Send Email
             const info = await transporter.sendMail({
                 from: process.env.EMAIL_FROM,
                 to: user.email,
-                subject: "Password Reset Link",
+                subject: "You Requested for password reset so this email is regarding password reset.",
                 html: `<h2><a href=${link}>Click here to Reset Your Password</a></h2>`
             })
 
-            console.log(info);
+            // console.log(info);
 
-            res.status(200).json({ "status": "success", "message": "Password Reset Email Sent... Please Check Your Email", "Sent Email Info": info });
+            res.status(200).json({ "status": "success", "message": "Password Reset Email Sent. Please Check Your Email...!", "Sent Email Info": info });
 
         } catch (error) {
             console.log(error);
