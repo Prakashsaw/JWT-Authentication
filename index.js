@@ -1,8 +1,7 @@
-import dotenv from 'dotenv'
-import express from 'express'
-import cors from 'cors'
-import connectDB from './config/connectDB.js';
-import userRoute from './routes/userRoute.js';
+import dotenv from "dotenv";
+import express from "express";
+import cors from "cors";
+import connectDB from "./config/connectDB.js";
 
 dotenv.config();
 
@@ -21,10 +20,9 @@ app.use(express.json());
 app.use("/api/v1/users/", userRoute);
 
 app.get("/", (req, res) => {
-    res.send("Welcome to our JWT_Authentication API...");
+  res.send("Welcome to our JWT_Authentication API...");
 });
 
 app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
+  console.log(`Server listening on port ${PORT}`);
 });
-
